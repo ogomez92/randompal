@@ -1,4 +1,6 @@
 let text = [
+"test",
+"testtt",
     "Hello! Question of the day! What sports do you play? Are you into team sports or something different? Nice to meet you :)",
     "Hi! Do you like video games? What is your favorite?",
     "Random question of the day! How tall are you?",
@@ -17,6 +19,9 @@ let text = [
     "Random question of the day! What would you say to me if I was a computer that could never read your message?",
     "Hi! Ask me the craziest question you can think of!!!",
 ]
+let page,browser;
+let search=false
+let counter=0;
 let ids = []
 const fs = require('fs')
 let data = {}
@@ -35,8 +40,9 @@ async function main() {
             data = JSON.parse(fs.readFileSync("data.json"))
         }
         if (typeof data.add === "undefined") data.add = false
-        const browser = await puppeteer.launch({ headless: true });
-        const page = await browser.newPage();
+         browser = await puppeteer.launch({ headless: true });
+         page = await browser.newPage();
+
         page.on('console', msg => {
             for (let i = 0; i < msg.args.length; ++i)
                 console.log(`${i}: ${msg.args[i]}`);
@@ -48,22 +54,8 @@ async function main() {
         await page.type("#topLoginPassword", process.env.password)
         await page.click("input[type=submit]")
         console.log("logged in!");
-        await page.goto(process.env.url);
-        console.log("searched for profiles")
-        ids = await page.evaluate(() => {
-            let ids = []
-            $("a[href*='pm.php?action=send&uid=']").each(function () {
-                let id = this.href.split("uid=")[1]
-                ids.push(this.href);
-            })
-            return ids;
-        })
-        for (let i = 0; i < ids.length; i++) {
-            if (data.ids.includes(ids[i].split("uid=")[1])) {
-                ids.splice(i, 1)
-                i--;
-            }
-        }
+        if (search) await doSearch()
+        if (!search) await doScroll()
         if (ids.length == 0) {
             console.log("No elements found")
         } else {
@@ -74,12 +66,13 @@ async function main() {
                 let id = element.split("uid=")[1]
                 console.log("going to id ")
                 await page.goto(element)
-                await page.type("#message", text[0])
-                text.splice(0, 1)
-                await page.click("input[type=submit]")
+                await page.type("#message", text[counter])
+                counter++;
+                if (counter>=text.length) counter=0;
+                //await page.click("input[type=submit]")
                 console.log("Successfully clicked send.")
                 data.add = add;
-                data.ids.push(id)
+                if (search) data.ids.push(id)
                 fs.writeFileSync("data.json", JSON.stringify(data))
                 await page.waitFor(3000)
 
@@ -95,21 +88,69 @@ async function main() {
     }
 }
 async function autoScroll(page) {
+    console.log("scroll start");
     await page.evaluate(async () => {
         await new Promise((resolve, reject) => {
             var totalHeight = 0;
-            var distance = 100;
+            var distance = 1000;
             var timer = setInterval(() => {
                 var scrollHeight = document.body.scrollHeight;
                 window.scrollBy(0, distance);
                 totalHeight += distance;
-
+console.log("scrolling",totalHeight)
                 if (totalHeight >= scrollHeight) {
                     clearInterval(timer);
+                    console.log("done scrolling!")
                     resolve();
                 }
-            }, 100);
+            }, 1000);
         });
     });
+}
+async function doSearch() {
+    await page.goto(process.env.url);
+    console.log("searched for profiles")
+    ids = await page.evaluate(() => {
+        let ids = []
+        $("a[href*='pm.php?action=send&uid=']").each(function () {
+            let id = this.href.split("uid=")[1]
+            ids.push(this.href);
+        })
+        return ids;
+    })
+    for (let i = 0; i < ids.length; i++) {
+        if (data.ids.includes(ids[i].split("uid=")[1])) {
+            ids.splice(i, 1)
+            i--;
+        }
+    }
+}
+
+async function doScroll() {
+    try {
+    await page.goto("https://interpals.net/pm.php?filter=online");
+    let pages = await page.evaluate(() => {
+        return $("a").find("last page")[0].href    
+        })
+        console.log("loaded conversations",pages)
+process.exit()
+    ids = await page.evaluate(() => {
+        let ids = []
+        $("a[href*='thread_id=']").each(function () {
+            let id = this.href.split("thread_id=")[1]
+            ids.push(this.href);
+        })
+        ids=ids.reverse()
+        return ids;
+    })
+    for (let i = 0; i < ids.length; i++) {
+        if (data.ids.includes(ids[i].split("uid=")[1])) {
+            ids.splice(i, 1)
+            i--;
+        }
+    }
+    } catch(e) {
+        console.log("error! ",e.message)
+    }
 }
 main()
