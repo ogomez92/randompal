@@ -1,4 +1,3 @@
-let searchURL = "https://interpals.net/app/search?offset=&sort=last_login&age1=16&age2=50&sex%5B%5D=female&countries%5B%5D=---&countries%5B%5D=---&city=&cityName=Select+city&continents%5B%5D=EU&languages%5B%5D=---&languages%5B%5D=---&lfor%5B%5D=lfor_snail&lfor%5B%5D=lfor_langex&lfor%5B%5D=lfor_friend&lfor%5B%5D=lfor_meet&lfor%5B%5D=lfor_relation&keywords=&sort=last_login&username=&csrf_token=YmYxZWFlYzQ%3D"
 let text = [
     "Hello! Question of the day! What sports do you play? Are you into team sports or something different? Nice to meet you :)",
     "Hi! Do you like video games? What is your favorite?",
@@ -49,7 +48,7 @@ async function main() {
         await page.type("#topLoginPassword", process.env.password)
         await page.click("input[type=submit]")
         console.log("logged in!");
-        await page.goto(searchURL);
+        await page.goto(process.env.url);
         console.log("searched for profiles")
         ids = await page.evaluate(() => {
             let ids = []
