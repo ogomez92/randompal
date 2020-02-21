@@ -1,6 +1,4 @@
 let text = [
-"test",
-"testtt",
     "Hello! Question of the day! What sports do you play? Are you into team sports or something different? Nice to meet you :)",
     "Hi! Do you like video games? What is your favorite?",
     "Random question of the day! How tall are you?",
@@ -19,8 +17,22 @@ let text = [
     "Random question of the day! What would you say to me if I was a computer that could never read your message?",
     "Hi! Ask me the craziest question you can think of!!!",
 ]
+let otext=[
+"Random question of the day! If you were on a deserted island right now, what would be the thing you wouldn't be without?",
+"Random question time! Tell me 5 numbers for the lottery today please!! If I win I will give you 0,1% ;)",
+"Random question time! Are you bored at work right now?",
+"Random question of the day! What would you say to me if I was a computer that could never read your message?",
+"Hi! Ask me the craziest question you can think of!!!",
+"Hey hey, how have you been?",
+"Well hi, been a while ;)",
+"Hola hola!!!!",
+"Hola, how are you?",
+"Do you like chocolate?",
+"Tell me a secret ;)",
+"Hey tell me something new :)",
+"Can you tell me a secret? ^^",
+]
 let page,browser;
-let search=false
 let counter=0;
 let ids = []
 const fs = require('fs')
@@ -32,6 +44,9 @@ let add = false
 const puppeteer = require('puppeteer')
 const dotenv = require('dotenv');
 dotenv.config();
+let search
+if (process.env.search==1) search=true;
+if (process.env.search==0) search=false;
 
 async function main() {
     try {
@@ -39,7 +54,7 @@ async function main() {
             console.log("get data")
             data = JSON.parse(fs.readFileSync("data.json"))
         }
-        if (typeof data.add === "undefined") data.add = false
+        if (typeof data.threads === "undefined") data.threads = []
          browser = await puppeteer.launch({ headless: true });
          page = await browser.newPage();
 
@@ -66,11 +81,12 @@ async function main() {
             try {
                  if (search) id = element.split("uid=")[1]
                  if (!search) id = element.split("thread_id=")[1]                
-                console.log("going to id ")
+                console.log("going to id "+element)
                 await page.goto(element)
-                await page.type("#message", text[counter])
+                if (search) await page.type("#message", text[counter])
+                if (!search) await page.type("#message", otext[counter])                
                 counter++;
-                if (counter>=text.length) counter=0;
+                if ((counter>=text.length && search) || (counter>=otext.length && !search)) counter=0;
                 await page.click("input[type=submit]")
                 console.log("Successfully clicked send.")
                 data.add = add;
@@ -130,14 +146,17 @@ async function doSearch() {
 }
 
 async function doScroll() {
+    let allIds=[]
     try {
-        let pageCap=10;
-
-    let pages = await page.evaluate(() => {
-        let allIds=[]
         try {
-        for (let i=1;i<=pageCap;i++) {
-            await page.goto("https://interpals.net/pm.php?filter=online&page="+pageCap);
+            await page.goto("https://interpals.net/pm.php?filter=online&page=1");
+            await page.click("#paged_view")
+            let pageCap=process.env.pagecap
+            let firstPage=process.env.firstpage
+        for (let i=firstPage;i<=pageCap;i++) {
+            console.log("getting page "+i)
+        
+            await page.goto("https://interpals.net/pm.php?filter=online&page="+i);
     ids = await page.evaluate(() => {
         let ids = []
         $("a[href*='thread_id=']").each(function () {
@@ -146,13 +165,17 @@ async function doScroll() {
         })
         return ids;
     })
-    allIds+=ids;
+    for (let i=0;i<ids.length;i++) {
+        allIds.push(ids[i])
+    }
+    ids=[]
     await page.waitFor(2000)
     } //process pages
         } catch(e) {
             console.log("Error getting ids, abort on page"+i)
         }
-        ids=allIds
+        ids=allIds;
+        await page.click("#change_view")
         console.log("proceed")
     for (let i = 0; i < ids.length; i++) {
         if (data.threads.includes(ids[i].split("thread_id=")[1])) {
