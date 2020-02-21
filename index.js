@@ -57,7 +57,7 @@ async function main() {
         if (typeof data.threads === "undefined") data.threads = []
          browser = await puppeteer.launch({ headless: true });
          page = await browser.newPage();
-
+        await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
         page.on('console', msg => {
             for (let i = 0; i < msg.args.length; ++i)
                 console.log(`${i}: ${msg.args[i]}`);
@@ -81,22 +81,23 @@ async function main() {
             try {
                  if (search) id = element.split("uid=")[1]
                  if (!search) id = element.split("thread_id=")[1]                
-                console.log("going to id "+element)
-                await page.goto(element)
+                console.log("next")
+                                await page.goto(element)
+                                console.log("loaded")
                 if (search) await page.type("#message", text[counter])
                 if (!search) await page.type("#message", otext[counter])                
                 counter++;
                 if ((counter>=text.length && search) || (counter>=otext.length && !search)) counter=0;
                 await page.click("input[type=submit]")
-                console.log("Successfully clicked send.")
+                console.log("sent.")
                 data.add = add;
                 if (search) data.ids.push(id)
                 if (!search) data.threads.push(id)                
                 fs.writeFileSync("data.json", JSON.stringify(data))
-                await page.waitFor(3000)
+                await page.waitFor(Number(process.env.time))
 
             } catch (e) {
-                console.log("Error", e.message)
+                console.log("Error", e)
             }
         }
         console.log("done!");
@@ -146,17 +147,22 @@ async function doSearch() {
 }
 
 async function doScroll() {
+    console.log("going through threads.")
     let allIds=[]
     try {
-        try {
             await page.goto("https://interpals.net/pm.php?filter=online&page=1");
             await page.click("#paged_view")
-            let pageCap=process.env.pagecap
-            let firstPage=process.env.firstpage
+        } catch(e) {
+            console.log("Paged view skipped.")
+        }
+        try {
+            let pageCap=Number(process.env.pagecap)
+            let firstPage=Number(process.env.firstpage)
         for (let i=firstPage;i<=pageCap;i++) {
             console.log("getting page "+i)
-        
+        await page.waitFor(Number(process.env.time))
             await page.goto("https://interpals.net/pm.php?filter=online&page="+i);
+            console.log("loaded")
     ids = await page.evaluate(() => {
         let ids = []
         $("a[href*='thread_id=']").each(function () {
@@ -169,10 +175,10 @@ async function doScroll() {
         allIds.push(ids[i])
     }
     ids=[]
-    await page.waitFor(2000)
+    await page.waitFor(Number(process.env.time))
     } //process pages
         } catch(e) {
-            console.log("Error getting ids, abort on page"+i)
+            console.log("Error getting ids, abort+: "+e)
         }
         ids=allIds;
         await page.click("#change_view")
@@ -182,9 +188,6 @@ async function doScroll() {
             ids.splice(i, 1)
             i--;
         }
-    }
-    } catch(e) {
-        console.log("error! ",e.message)
     }
 }
 main()
