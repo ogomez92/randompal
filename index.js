@@ -26,7 +26,7 @@ let ids = []
 const fs = require('fs')
 let data = {}
 data.ids = [];
-
+data.threads=[]
 let symbol = ")"
 let add = false
 const puppeteer = require('puppeteer')
@@ -61,18 +61,21 @@ async function main() {
         } else {
             console.log("Number of links" + ids.length)
         }
+        let id;
         for (var element of ids) {
             try {
-                let id = element.split("uid=")[1]
+                 if (search) id = element.split("uid=")[1]
+                 if (!search) id = element.split("thread_id=")[1]                
                 console.log("going to id ")
                 await page.goto(element)
                 await page.type("#message", text[counter])
                 counter++;
                 if (counter>=text.length) counter=0;
-                //await page.click("input[type=submit]")
+                await page.click("input[type=submit]")
                 console.log("Successfully clicked send.")
                 data.add = add;
                 if (search) data.ids.push(id)
+                if (!search) data.threads.push(id)                
                 fs.writeFileSync("data.json", JSON.stringify(data))
                 await page.waitFor(3000)
 
@@ -128,23 +131,31 @@ async function doSearch() {
 
 async function doScroll() {
     try {
-    await page.goto("https://interpals.net/pm.php?filter=online");
+        let pageCap=10;
+
     let pages = await page.evaluate(() => {
-        return $("a").find("last page")[0].href    
-        })
-        console.log("loaded conversations",pages)
-process.exit()
+        let allIds=[]
+        try {
+        for (let i=1;i<=pageCap;i++) {
+            await page.goto("https://interpals.net/pm.php?filter=online&page="+pageCap);
     ids = await page.evaluate(() => {
         let ids = []
         $("a[href*='thread_id=']").each(function () {
             let id = this.href.split("thread_id=")[1]
             ids.push(this.href);
         })
-        ids=ids.reverse()
         return ids;
     })
+    allIds+=ids;
+    await page.waitFor(2000)
+    } //process pages
+        } catch(e) {
+            console.log("Error getting ids, abort on page"+i)
+        }
+        ids=allIds
+        console.log("proceed")
     for (let i = 0; i < ids.length; i++) {
-        if (data.ids.includes(ids[i].split("uid=")[1])) {
+        if (data.threads.includes(ids[i].split("thread_id=")[1])) {
             ids.splice(i, 1)
             i--;
         }
