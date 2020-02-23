@@ -12,14 +12,14 @@ let text = [
     "Random question of the day! If you had a bunch of money right now, what would you do?",
     "Random question time! what do you do for work? Do you like it???",
     "Random question of the day! If you were on a deserted island right now, what would be the thing you wouldn't be without?",
-    "Random question time! Tell me 5 numbers for the lottery today please!! If I win I will give you 0,1% ;)",
-    "Random question time! Are you bored at work right now?",
+    "Hi! Random question of the day! What is your shoe size? This question has been pulled from a list of 26 questions.",
+    "Random question time! Are you bored at work or doing something else?",
     "Random question of the day! What would you say to me if I was a computer that could never read your message?",
     "Hi! Ask me the craziest question you can think of!!!",
 ]
 let otext=[
 "Random question of the day! If you were on a deserted island right now, what would be the thing you wouldn't be without?",
-"Random question time! Tell me 5 numbers for the lottery today please!! If I win I will give you 0,1% ;)",
+"Random question time! Tell me a number between 00000 and 99999 for the lottery today please!! If I win I will give you 0,1% ;)",
 "Random question time! Are you bored at work right now?",
 "Random question of the day! What would you say to me if I was a computer that could never read your message?",
 "Hi! Ask me the craziest question you can think of!!!",
@@ -97,14 +97,14 @@ async function main() {
                 await page.waitFor(Number(process.env.time))
 
             } catch (e) {
-                console.log("Error", e)
+                console.log("Error", e.message)
             }
         }
         console.log("done!");
         await browser.close()
         process.exit()
     } catch (e) {
-        console.log("Error! " + e)
+        console.log("Error! " + e.message)
     }
 }
 async function autoScroll(page) {
@@ -156,8 +156,8 @@ async function doScroll() {
             console.log("Paged view skipped.")
         }
         try {
-            let pageCap=Number(process.env.pagecap)
-            let firstPage=Number(process.env.firstpage)
+                        let firstPage=Number(process.env.firstpage)
+            let pageCap=Number(process.env.pagecap)+firstPage
         for (let i=firstPage;i<=pageCap;i++) {
             console.log("getting page "+i)
         await page.waitFor(Number(process.env.time))
@@ -178,7 +178,7 @@ async function doScroll() {
     await page.waitFor(Number(process.env.time))
     } //process pages
         } catch(e) {
-            console.log("Error getting ids, abort+: "+e)
+            console.log("Error getting ids, abort+: "+e.message)
         }
         ids=allIds;
         await page.click("#change_view")
