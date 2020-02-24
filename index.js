@@ -57,6 +57,7 @@ async function main() {
         if (typeof data.threads === "undefined") data.threads = []
          browser = await puppeteer.launch({ headless: true });
          page = await browser.newPage();
+        page.setDefaultNavigationTimeout(9999)
         await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
         page.on('console', msg => {
             for (let i = 0; i < msg.args.length; ++i)
