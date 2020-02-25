@@ -3,11 +3,11 @@ let text = [
     "Hi! Do you like video games? What is your favorite?",
     "Random question of the day! How tall are you?",
     "Random question of the day! Do you like driving or do you prefer public transport?",
-    "Random question time! What was the first word that came to your mind after reading this?",
+    "Random question time! What was the first word that came to your mind after reading my profile?",
     "Hi! Ask me the most impossible question you can think of and I will answer! :)",
     "If you had one word for me, what would it be????",
     "Hey! Random question time! What shoes do you like the most?",
-    "Random question of the day... Do you like Windows or Mac?",
+    "Random question of the day... Do you like rock music or electronic? What do you think about classical music?",
     "Random question time! what would you do with a million dollars?",
     "Random question of the day! If you had a bunch of money right now, what would you do?",
     "Random question time! what do you do for work? Do you like it???",
@@ -151,7 +151,7 @@ async function doScroll() {
     console.log("going through threads.")
     let allIds=[]
     try {
-            await page.goto("https://interpals.net/pm.php?filter=online&page=1");
+            await page.goto("https://interpals.net/pm.php?filter=online");
             await page.click("#paged_view")
         } catch(e) {
             console.log("Paged view skipped.")
