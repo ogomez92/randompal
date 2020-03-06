@@ -1,8 +1,9 @@
 let otext = [
-"Hi :) :)",
-"Hey how's your day going?",
-"Hmmmm... Wanna talk?",
-"Hey.. I'm at work.... :)",
+"Hey (: Friday!!",
+"What's up? It's Friday! Sun is up woo hoo!",
+"Finally Friday!!!",
+"Hii! Any weekend plans?",
+"Weekend almost here!!",
 ]
 
 let text = [
