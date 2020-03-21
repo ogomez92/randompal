@@ -1,29 +1,14 @@
 let otext = [
-"Hey (: Friday!!",
-"What's up? It's Friday! Sun is up woo hoo!",
-"Finally Friday!!!",
-"Hii! Any weekend plans?",
-"Weekend almost here!!",
+"well hi... How is the quarantine treating you?",
+"Hi... we are quarantined here :(",
+"Hi, how are you spending these dark times?",
 ]
 
 let text = [
-    "Hello! Question of the day! What sports do you play? Are you into team sports or something different? Nice to meet you :)",
-    "Hi! Do you like video games? What is your favorite?",
-    "Random question of the day! How tall are you?",
-    "Random question of the day! Do you like driving or do you prefer public transport?",
-    "Random question time! What was the first word that came to your mind after reading my profile?",
-    "Hi! Ask me the most impossible question you can think of and I will answer! :)",
-    "If you had one word for me, what would it be????",
-    "Hey! Random question time! What shoes do you like the most?",
-    "Random question of the day... Do you like rock music or electronic? What do you think about classical music?",
-    "Random question time! what would you do with a million dollars?",
-    "Random question of the day! If you had a bunch of money right now, what would you do?",
-    "Random question time! what do you do for work? Do you like it???",
-    "Random question of the day! If you were sitting down and something grabs your leg and you can't see it, what do you do?",
-    "Hi! Random question of the day! What is your shoe size? This question has been pulled from a list of 26 questions.",
-    "Random question time! Are you bored at work or doing something else?",
-    "Random question of the day! What would you say to me if I was a computer that could never read your message?",
-    "Hi! Ask me the craziest question you can think of!!!",
+"Hi, here in Spain we are quarantined.. :(",
+"Hi, how's life treating you? Times are dark here",
+"Hi how's the weekend going? Here we're locked down, it's boring",
+"Hi what's going on in your part of the world? We're locked down in Spain.",
 ]
 let page, browser;
 let counter = 0;
@@ -55,7 +40,7 @@ async function main() {
 
         browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']});
         page = await browser.newPage();
-        page.setDefaultNavigationTimeout(9999)
+        page.setDefaultNavigationTimeout(15000)
         await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
         page.on('console', msg => {
             for (let i = 0; i < msg.args.length; ++i)
