@@ -1,14 +1,13 @@
 let otext = [
-"well hi... How is the quarantine treating you?",
-"Hi... we are quarantined here :(",
-"Hi, how are you spending these dark times?",
+"Hey, it's been a while.. (;",
+"Heye how's life? :)",
+"Hey how have you been? <3",
 ]
 
 let text = [
-"Hi, here in Spain we are quarantined.. :(",
-"Hi, how's life treating you? Times are dark here",
-"Hi how's the weekend going? Here we're locked down, it's boring",
-"Hi what's going on in your part of the world? We're locked down in Spain.",
+"Hi, greetings from coronaland haha",
+"Hi, whhat's up in your part of the world? (:",
+"Hi, greetings from Coronaland! ^^",
 ]
 let page, browser;
 let counter = 0;
