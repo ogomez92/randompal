@@ -1,0 +1,10 @@
+search=1
+#spain
+url=https://www.interpals.net/app/search?offset=&sort=last_login&age1=16&age2=110&sex%5B%5D=female&countries%5B%5D=ES&countries%5B%5D=---&city=&cityName=&languages%5B%5D=---&languages%5B%5D=---&lfor%5B%5D=lfor_snail&lfor%5B%5D=lfor_langex&lfor%5B%5D=lfor_friend&lfor%5B%5D=lfor_meet&lfor%5B%5D=lfor_relation&keywords=&sort=last_login&username=&csrf_token=NTY5ODE3OTU%3D
+
+firstpage=1
+pagecap=3
+clearthreads=0
+time=800
+user=audiogamer92@outlook.es
+password=4n510bfdz

@@ -5,9 +5,10 @@ let otext = [
 ];
 
 let text = [
-  "Hi, greetings from coronaland haha",
-  "Hi, whhat's up in your part of the world? (:",
-  "Hi, greetings from Coronaland! ^^"
+"Hola, qué tal llevas la cuarentena? Encantado ;)",
+"Hola.. Qué tal llevas la cuarentena? Yo me estoy leyendo otra vez Harry Potter... Jajaj",
+"Holaa!!! Qué tal la cuarentena? Yo me estoy leyendo otra vez Harry Potter.. viendo series.. Jajaj",
+
 ];
 let page, browser;
 let counter = 0;
