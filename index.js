@@ -1,7 +1,7 @@
 let otext = [
-  "Hey, it's been a while.. (;",
-  "Heye how's life? :)",
-  "Hey how have you been? <3"
+"Heeeey",
+"Heeey que tal el día????",
+"Hii!!!!! :3",
 ];
 
 let text = [
@@ -87,7 +87,8 @@ async function main() {
         if (search) data.ids.push(id);
         if (!search) data.threads.push(id);
         fs.writeFileSync("data.json", JSON.stringify(data));
-        await page.waitFor(Number(process.env.time));
+        if (search) await page.waitFor(Number(process.env.time));
+        if (!search) await page.waitFor(1000);        
       } catch (e) {
         console.log("Error", e.message);
       }
@@ -152,7 +153,7 @@ async function doScroll() {
     let pageCap = Number(process.env.pagecap) + firstPage;
     for (let i = firstPage; i <= pageCap; i++) {
       console.log("getting page " + i);
-      await page.waitFor(Number(process.env.time));
+      await page.waitFor(900);
       await page.goto("https://interpals.net/pm.php?filter=online&page=" + i);
       console.log("loaded");
       ids = await page.evaluate(() => {
@@ -167,10 +168,10 @@ async function doScroll() {
         allIds.push(ids[i]);
       }
       ids = [];
-      await page.waitFor(Number(process.env.time));
     } //process pages
   } catch (e) {
     console.log("Error getting ids, abort+: " + e.message);
+    await page.waitFor(3000)
   }
   ids = allIds;
   await page.click("#change_view");

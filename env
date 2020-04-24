@@ -1,0 +1,13 @@
+search=1
+#spain
+url=https://www.interpals.net/app/search?offset=&sort=last_login&age1=16&age2=110&sex%5B%5D=female&countries%5B%5D=ES&countries%5B%5D=---&city=&cityName=&languages%5B%5D=---&languages%5B%5D=---&lfor%5B%5D=lfor_snail&lfor%5B%5D=lfor_langex&lfor%5B%5D=lfor_friend&lfor%5B%5D=lfor_meet&lfor%5B%5D=lfor_relation&keywords=&sort=last_login&username=&csrf_token=NTY5ODE3OTU%3D
+#catalan
+#url=https://www.interpals.net/app/search?offset=&sort=last_login&age1=16&age2=110&sex%5B%5D=female&countries%5B%5D=---&countries%5B%5D=ES&city=&cityName=Select+city&languages%5B%5D=CA&languages%5B%5D=---&lfor%5B%5D=lfor_snail&lfor%5B%5D=lfor_langex&lfor%5B%5D=lfor_friend&lfor%5B%5D=lfor_meet&lfor%5B%5D=lfor_relation&keywords=&sort=last_login&username=&csrf_token=ZGViMWU1M2U%3D
+#spanish
+url=https://www.interpals.net/app/search?offset=&sort=last_login&age1=16&age2=110&sex%5B%5D=female&countries%5B%5D=---&countries%5B%5D=---&city=&cityName=&continents%5B%5D=AF&continents%5B%5D=AS&continents%5B%5D=EU&continents%5B%5D=NA&continents%5B%5D=OC&continents%5B%5D=SA&languages%5B%5D=ES&languages%5B%5D=---&lfor%5B%5D=lfor_snail&lfor%5B%5D=lfor_langex&lfor%5B%5D=lfor_friend&lfor%5B%5D=lfor_meet&lfor%5B%5D=lfor_relation&keywords=&sort=last_login&username=&csrf_token=MDM4ODRhYjA%3D
+clearthreads=0
+firstpage=3
+pagecap=4
+user=audiogamer92@outlook.es
+password=4n510bfdz
+time=120000
