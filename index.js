@@ -1,7 +1,8 @@
 let otext = [
-"Heeeey",
-"Heeey que tal el día????",
-"Hii!!!!! :3",
+"Hey!!! (:",
+"How was your day? :)",
+"Hola!!!! :)",
+"Hey (: <3",
 ];
 
 let text = [
