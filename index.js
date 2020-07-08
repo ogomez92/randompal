@@ -1,14 +1,13 @@
 let otext = [
-"Hey!!! (:",
-"How was your day? :)",
-"Hola!!!! :)",
-"Hey (: <3",
+"Hey hey!!! :)",
+"Hmmm hi!!!! :3",
+"Hmmmm, hi hi!!",
 ];
 
 let text = [
-"Hola, qué tal llevas la cuarentena? Encantado ;)",
-"Hola.. Qué tal llevas la cuarentena? Yo me estoy leyendo otra vez Harry Potter... Jajaj",
-"Holaa!!! Qué tal la cuarentena? Yo me estoy leyendo otra vez Harry Potter.. viendo series.. Jajaj",
+"Hey!!!! Nice to meet you. I live in Spain. :) I love reading, you too?",
+"Hey.. How's your super lockdown going? I live in spain.... :)",
+"Heeeey how is super lockdown???? I live in Spain.. Super boring here :P",
 
 ];
 let page, browser;
@@ -89,7 +88,7 @@ async function main() {
         if (!search) data.threads.push(id);
         fs.writeFileSync("data.json", JSON.stringify(data));
         if (search) await page.waitFor(Number(process.env.time));
-        if (!search) await page.waitFor(1000);        
+        if (!search) await page.waitFor(4000);        
       } catch (e) {
         console.log("Error", e.message);
       }
@@ -154,7 +153,7 @@ async function doScroll() {
     let pageCap = Number(process.env.pagecap) + firstPage;
     for (let i = firstPage; i <= pageCap; i++) {
       console.log("getting page " + i);
-      await page.waitFor(900);
+      await page.waitFor(3900);
       await page.goto("https://interpals.net/pm.php?filter=online&page=" + i);
       console.log("loaded");
       ids = await page.evaluate(() => {
@@ -172,7 +171,7 @@ async function doScroll() {
     } //process pages
   } catch (e) {
     console.log("Error getting ids, abort+: " + e.message);
-    await page.waitFor(3000)
+    await page.waitFor(5000)
   }
   ids = allIds;
   await page.click("#change_view");
